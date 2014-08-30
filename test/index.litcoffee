@@ -22,15 +22,7 @@ VOSCO
 
       it "should list all commits", (finish) ->
         vosco = new VOSCO test_path
-        options = {cwd: test_path, env: vosco._getEnv()}
-        run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
-        async.waterfall [
-          (cb) -> run "echo Hello > test.txt", cb
-          (cb) -> run "git init", cb
-          (cb) -> run "git add test.txt", cb
-          (cb) -> run "git commit -m 'test commit'", cb
-          (cb) -> vosco.log 5, cb
-        ], (error, result) ->
+        createCommit vosco, 'test commit', (error, result) ->
           assert.equal true, Array.isArray result
           assert.equal 1, result.length
           assert.equal 'test commit', result[0].message
@@ -38,14 +30,8 @@ VOSCO
 
       it "should create new commit", (finish) ->
         vosco = new VOSCO test_path
-        options = {cwd: test_path, env: vosco._getEnv()}
-        run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
-        async.waterfall [
-          (cb) -> run "echo Hello > test.txt", cb
-          (cb) -> run "git init", cb
-          (cb) -> vosco.commit 'test commit', (err) -> cb(err)
-          (cb) -> vosco.log 5, cb
-        ], (error, result) ->
+        createCommit vosco, 'test commit', (error, result) ->
+          assert.equal true, Array.isArray result
           assert.equal 1, result.length
           assert.equal 'test commit', result[0].message
           do finish
@@ -69,3 +55,13 @@ Helpers
 
       afterEach (done) ->
         exec "rm -rf #{test_path}", done
+
+      createCommit = (vosco, message, callback) ->
+        options = {cwd: test_path, env: vosco._getEnv()}
+        run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
+        async.waterfall [
+          (cb) -> run "echo Hello > test.txt", cb
+          (cb) -> run "git init", cb
+          (cb) -> vosco.commit message, (err) -> cb(err)
+          (cb) -> vosco.log 5, cb
+        ], callback
