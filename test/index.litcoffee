@@ -2,7 +2,6 @@ Requirements
 ------------
 
     assert = require "assert"
-    fs     = require "fs"
     path   = require "path"
     {exec} = require "child_process"
     async  = require "async"
