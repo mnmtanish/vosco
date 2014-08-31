@@ -69,7 +69,7 @@ VOSCO
           vosco.log 10, (error, result) ->
             firstCommit = result[0].commit
             createCommit vosco, "test commit", (error, result) ->
-              vosco.reset firstCommit, ->
+              vosco.rollback firstCommit, ->
                 vosco.log 10, (error, result) ->
                   assert.equal firstCommit, result[0].commit
                   do finish

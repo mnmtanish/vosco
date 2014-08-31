@@ -29,7 +29,7 @@ VOSCO::log = (count, callback) ->
   cmd = "log --pretty=format:#{VOSCO.format} --all -#{count}"
   @_exec cmd, (error, stdout, stderr) =>
     # TODO Handle Errors
-    lines = stdout.split("\n")
+    lines = stdout.split "\n"
     result = []
     lines.forEach (line) ->
       try result.push JSON.parse(line)
@@ -41,7 +41,7 @@ VOSCO::commit = (message, callback) ->
       # TODO Handle Errors
       callback null
 
-VOSCO::reset = (commit, callback) ->
+VOSCO::rollback = (commit, callback) ->
   @_exec "reset --hard \"#{commit}\"", =>
     # TODO Handle Errors
     callback null
