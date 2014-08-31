@@ -27,6 +27,11 @@ VOSCO::commit = (message, callback) ->
       # TODO Handle Errors
       callback null
 
+VOSCO::reset = (commit, callback) ->
+  @exec "reset --hard \"#{commit}\"", =>
+    # TODO Handle Errors
+    callback null
+
 VOSCO::install = (callback) ->
   @exec "init --template #{VOSCO.template}", =>
     @_copyGitignore =>

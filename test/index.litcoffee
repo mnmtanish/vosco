@@ -28,14 +28,6 @@ VOSCO
           assert.equal 'test commit', result[0].message
           do finish
 
-      it "should create new commit", (finish) ->
-        vosco = new VOSCO test_path
-        createCommit vosco, 'test commit', (error, result) ->
-          assert.equal true, Array.isArray result
-          assert.equal 1, result.length
-          assert.equal 'test commit', result[0].message
-          do finish
-
       it "should initialize the repository", (finish) ->
         vosco = new VOSCO test_path
         vosco.install ->
@@ -43,6 +35,26 @@ VOSCO
             assert.equal 1, result.length
             assert.equal "Initial Commit", result[0].message
             do finish
+
+      it "should create new commit", (finish) ->
+        vosco = new VOSCO test_path
+        vosco.install ->
+          createCommit vosco, 'test commit', (error, result) ->
+            assert.equal true, Array.isArray result
+            assert.equal 2, result.length
+            assert.equal 'test commit', result[0].message
+            do finish
+
+      it "should rollback to previous commit", (finish) ->
+        vosco = new VOSCO test_path
+        vosco.install ->
+          vosco.log 10, (error, result) ->
+            firstCommit = result[0].commit
+            createCommit vosco, 'test commit', (error, result) ->
+              vosco.reset firstCommit, ->
+                vosco.log 10, (error, result) ->
+                  assert.equal firstCommit, result[0].commit
+                  do finish
 
 Helpers
 -------
@@ -60,7 +72,7 @@ Helpers
         options = {cwd: test_path, env: vosco._getEnv()}
         run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
         async.waterfall [
-          (cb) -> run "echo Hello > test.txt", cb
+          (cb) -> run "echo #{Date.now()} > test.txt", cb
           (cb) -> run "git init", cb
           (cb) -> vosco.commit message, (err) -> cb(err)
           (cb) -> vosco.log 5, cb
