@@ -13,14 +13,6 @@ VOSCO
 
     describe "VOSCO", ->
 
-      it "should copy gitignore file to repo path", (finish) ->
-        vosco = new VOSCO test_path
-        vosco.execEnv.IS_TEST = 1
-        vosco._copyGitignore ->
-          gitignore = path.join test_path, ".gitignore"
-          assert.equal true, fs.existsSync gitignore
-          do finish
-
       it "should list all commits", (finish) ->
         vosco = new VOSCO test_path
         vosco.execEnv.IS_TEST = 1
@@ -36,7 +28,7 @@ VOSCO
         vosco.install ->
           vosco.log 10, (error, result) ->
             assert.equal 1, result.length
-            assert.equal "Initial Commit", result[0].message
+            assert.equal "Install VOSCO", result[0].message
             do finish
 
       it "should create new commit", (finish) ->
@@ -82,7 +74,8 @@ Helpers
       repo_path = "/tmp/test_repo/.vosco"
 
       beforeEach (done) ->
-        exec "mkdir #{test_path}", done
+        exec "mkdir #{test_path}", ->
+          exec "echo hello > #{test_file}", done
 
       afterEach (done) ->
         exec "rm -rf #{test_path}", done

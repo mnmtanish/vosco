@@ -14,11 +14,8 @@ VOSCO.format = '\'{"commit": "%H", "author": "%an", "email": "%ae", "date": "%ad
 
 VOSCO::install = (callback) ->
   @_exec "init --template #{VOSCO.template}", =>
-    @_copyGitignore =>
-      @_exec "add .gitignore", =>
-        @_exec "commit -m 'Initial Commit'", =>
-          # TODO Handle Errors
-          callback null
+    @commit 'Install VOSCO', =>
+      callback null
 
 VOSCO::uninstall = (callback) ->
   exec "rm -rf #{@_getRepositoryDir()}", =>
@@ -60,12 +57,6 @@ VOSCO::blame = (path, callback) ->
 VOSCO::_exec = (cmd, callback) ->
   options = {cwd: @path, env: @execEnv}
   exec "git #{cmd}", options, callback
-
-VOSCO::_copyGitignore = (callback) ->
-  gitignoreSrc = path.join VOSCO.template, "gitignore.txt"
-  gitignoreDst = path.join @path, ".gitignore"
-  exec "cp #{gitignoreSrc} #{gitignoreDst}", ->
-    callback null
 
 VOSCO::._getRepositoryDir = ->
   path.resolve @path, '.vosco'
