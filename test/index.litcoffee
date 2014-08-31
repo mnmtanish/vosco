@@ -49,6 +49,19 @@ VOSCO
             assert.equal "test commit", result[0].message
             do finish
 
+      it "should return blame info", (finish) ->
+        vosco = new VOSCO test_path
+        vosco.execEnv.IS_TEST = 1
+        vosco.install ->
+          createCommit vosco, "first commit", (error, result) ->
+            firstCommit = result[0].commit
+            createCommit vosco, "second commit", (error, result) ->
+              secondCommit = result[0].commit
+              vosco.blame test_file, (error, result) ->
+                assert.equal result[0].commit, firstCommit
+                assert.equal result[1].commit, secondCommit
+                do finish
+
       it "should rollback to previous commit", (finish) ->
         vosco = new VOSCO test_path
         vosco.execEnv.IS_TEST = 1
@@ -65,6 +78,7 @@ Helpers
 -------
 
       test_path = "/tmp/test_repo"
+      test_file = "/tmp/test_repo/test.txt"
       repo_path = "/tmp/test_repo/.vosco"
 
       beforeEach (done) ->
@@ -77,7 +91,7 @@ Helpers
         options = {cwd: test_path, env: vosco.execEnv}
         run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
         async.waterfall [
-          (cb) -> run "echo #{Date.now()} > test.txt", cb
+          (cb) -> run "echo #{Date.now()} >> #{test_file}", cb
           (cb) -> run "git init", cb
           (cb) -> vosco.commit message, (err) -> cb(err)
           (cb) -> vosco.log 5, cb

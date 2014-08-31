@@ -46,6 +46,17 @@ VOSCO::reset = (commit, callback) ->
     # TODO Handle Errors
     callback null
 
+VOSCO::blame = (path, callback) ->
+  regex = /^([0-9a-f]{40}) \((\S+) (\d+) .* (\d+)\) (.*)$/
+  @_exec "blame -t -l #{path}", (error, stdout, stderr) =>
+    lines = stdout.split "\n"
+    result = []
+    lines.forEach (line) =>
+      matches = regex.exec line
+      return unless matches
+      result.push @_formatBlameOutput(matches)
+    callback null, result
+
 VOSCO::_exec = (cmd, callback) ->
   options = {cwd: @path, env: @execEnv}
   exec "git #{cmd}", options, callback
@@ -70,6 +81,13 @@ VOSCO::_getEnv = ->
   GIT_COMMITTER_NAME: @author
   GIT_COMMITTER_EMAIL: @email
   VOSCO_APP_DIR: __dirname
+
+VOSCO::_formatBlameOutput = (parts) ->
+  commit: parts[1]
+  author: parts[2]
+  time: parts[3]
+  line: parts[4]
+  content: parts[5]
 
 # Export
 module.exports = VOSCO
