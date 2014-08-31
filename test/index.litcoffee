@@ -15,6 +15,7 @@ VOSCO
 
       it "should copy gitignore file to repo path", (finish) ->
         vosco = new VOSCO test_path
+        vosco.execEnv.IS_TEST = 1
         vosco._copyGitignore ->
           gitignore = path.join test_path, ".gitignore"
           assert.equal true, fs.existsSync gitignore
@@ -22,14 +23,16 @@ VOSCO
 
       it "should list all commits", (finish) ->
         vosco = new VOSCO test_path
-        createCommit vosco, 'test commit', (error, result) ->
+        vosco.execEnv.IS_TEST = 1
+        createCommit vosco, "test commit", (error, result) ->
           assert.equal true, Array.isArray result
           assert.equal 1, result.length
-          assert.equal 'test commit', result[0].message
+          assert.equal "test commit", result[0].message
           do finish
 
       it "should initialize the repository", (finish) ->
         vosco = new VOSCO test_path
+        vosco.execEnv.IS_TEST = 1
         vosco.install ->
           vosco.log 10, (error, result) ->
             assert.equal 1, result.length
@@ -38,19 +41,21 @@ VOSCO
 
       it "should create new commit", (finish) ->
         vosco = new VOSCO test_path
+        vosco.execEnv.IS_TEST = 1
         vosco.install ->
-          createCommit vosco, 'test commit', (error, result) ->
+          createCommit vosco, "test commit", (error, result) ->
             assert.equal true, Array.isArray result
             assert.equal 2, result.length
-            assert.equal 'test commit', result[0].message
+            assert.equal "test commit", result[0].message
             do finish
 
       it "should rollback to previous commit", (finish) ->
         vosco = new VOSCO test_path
+        vosco.execEnv.IS_TEST = 1
         vosco.install ->
           vosco.log 10, (error, result) ->
             firstCommit = result[0].commit
-            createCommit vosco, 'test commit', (error, result) ->
+            createCommit vosco, "test commit", (error, result) ->
               vosco.reset firstCommit, ->
                 vosco.log 10, (error, result) ->
                   assert.equal firstCommit, result[0].commit
@@ -69,7 +74,7 @@ Helpers
         exec "rm -rf #{test_path}", done
 
       createCommit = (vosco, message, callback) ->
-        options = {cwd: test_path, env: vosco._getEnv()}
+        options = {cwd: test_path, env: vosco.execEnv}
         run = (cmd, cb) -> exec cmd, options, (err) -> cb(err)
         async.waterfall [
           (cb) -> run "echo #{Date.now()} > test.txt", cb
