@@ -9,7 +9,7 @@ Usage
 Documentation
 -------------
 
-Please read the [source code](blob/master/index.litcoffee) for developer documentation.
+Please read the [source code](index.litcoffee) for developer documentation.
 
 ***
 
