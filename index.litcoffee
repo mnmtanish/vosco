@@ -5,14 +5,16 @@ Dependencies
 ------------
 
     path   = require "path"
+    assert = require "assert"
     {exec} = require "child_process"
 
 Constructor
 -----------
 
     VOSCO = (@path, @options) ->
+      @_validateRepoPath(@path)
+      @_validateOptions(@options)
       @env = @_getEnvironmentVariables()
-      # TODO validate options
 
 Setup
 -----
@@ -101,6 +103,16 @@ Helpers
 
 Helpers (parsers)
 -----------------
+
+    VOSCO::_validateRepoPath = (path) ->
+      msg = "Invalid repository path"
+      assert.equal typeof path, "string", msg
+
+    VOSCO::_validateOptions = (options) ->
+      msg = "Invalid options"
+      assert.equal typeof options, "object", msg
+      assert.equal typeof options.author_name, "string", msg
+      assert.equal typeof options.author_email, "string", msg
 
     VOSCO::_parseLogOutput = (stdout) ->
       lines = stdout.split "\n"

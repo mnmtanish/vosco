@@ -11,6 +11,8 @@ Constructor
 -----------
 
     describe 'VOSCO::constructor', ->
+      it "should validate repo path"
+      it "should validate options"
       it "should set environment variables"
 
 Setup
@@ -79,6 +81,12 @@ Helpers
 
 Helpers (parsers)
 -----------------
+
+    describe 'VOSCO::_validateRepoPath', ->
+      it "should validate repository path"
+
+    describe 'VOSCO::_validateOptions', ->
+      it "should validate options"
 
     describe 'VOSCO::_parseLogOutput', ->
       it "should parse and return log output"
