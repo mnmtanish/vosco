@@ -1,2 +1,2 @@
-require('coffee-script/register');
+require('iced-coffee-script/register');
 module.exports = require('./index.coffee');

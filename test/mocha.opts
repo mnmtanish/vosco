@@ -1,3 +1,3 @@
---compilers litcoffee:coffee-script/register
+--compilers litcoffee:iced-coffee-script/register
 --reporter spec
 --recursive
