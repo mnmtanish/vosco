@@ -4,9 +4,10 @@ VOSCO
 Dependencies
 ------------
 
-    path   = require "path"
-    assert = require "assert"
-    {exec} = require "child_process"
+    path    = require "path"
+    BlameJs = require "blamejs"
+    assert  = require "assert"
+    {exec}  = require "child_process"
 
 Constructor
 -----------
@@ -116,15 +117,9 @@ Helpers (parsers)
       lines.map (line) -> JSON.parse(line)
 
     VOSCO::_parseBlameOutput = (stdout) ->
-      lines = stdout.split "\n"
-      lines.map (line) ->
-        matches = regex.exec line
-        result =
-          commit: matches[1]
-          author: matches[2]
-          time: matches[3]
-          line: matches[4]
-          content: matches[5]
+      blamejs = new BlameJs
+      blamejs.parseBlame(stdout);
+      {lines: blamejs.getLineData(), commits: blamejs.getCommitData()}
 
 Export Module
 -------------

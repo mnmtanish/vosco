@@ -23,6 +23,7 @@
     "mocha": "1.21.x"
   },
   "dependencies": {
+    "blamejs": "1.0.x",
     "iced-coffee-script": "1.7.x"
   }
 }
