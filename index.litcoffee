@@ -29,7 +29,8 @@ Repository
 ----------
 
     VOSCO::getStatus = (callback) ->
-      # TODO
+      await @_runGitCommand "status -z", defer(error, stdout, stderr)
+      callback null, @_parseStatusOutput(stdout)
 
     VOSCO::getHistory = (callback) ->
       command = "log --pretty=format:#{@_getLogFormat()} --all"
@@ -111,6 +112,10 @@ Helpers (parsers)
       assert.equal typeof options, "object", msg
       assert.equal typeof options.author_name, "string", msg
       assert.equal typeof options.author_email, "string", msg
+
+    VOSCO::_parseStatusOutput = (stdout) ->
+      #TODO parse tatus output
+      stdout
 
     VOSCO::_parseLogOutput = (stdout) ->
       lines = stdout.split "\n"
