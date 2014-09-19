@@ -20,32 +20,22 @@ Setup
 -----
 
     VOSCO::install = (callback) ->
-      await @createRepository defer()
+      await @_createRepository defer()
       await @createSnapshot 'Install VOSCO', defer()
       callback null
 
 Repository
 ----------
 
-    VOSCO::getRepositoryPath = ->
-      path.resolve @path, '.vosco'
-
-    VOSCO::createRepository = (callback) ->
-      await @_runGitCommand "init --template #{@_getTemplateDir()}", defer()
-      callback null
+    VOSCO::getStatus = (callback) ->
+      # TODO
 
     VOSCO::getHistory = (callback) ->
       command = "log --pretty=format:#{@_getLogFormat()} --all"
       await @_runGitCommand command, defer(error, stdout, stderr)
       callback null, @_parseLogOutput(stdout)
 
-Information
------------
-
-    VOSCO::getStatus = (callback) ->
-      # TODO
-
-    VOSCO::getBlameInfo = (paths, callback) ->
+    VOSCO::getContentHistory = (paths, callback) ->
       await @_runGitCommand "blame -t -l #{path}", defer(error, stdout, stderr)
       callback null, @_parseBlameOutput(stdout)
 
@@ -82,8 +72,15 @@ Branch
 Helpers
 -------
 
+    VOSCO::_getRepositoryPath = ->
+      path.resolve @path, '.vosco'
+
+    VOSCO::_createRepository = (callback) ->
+      await @_runGitCommand "init --template #{@_getTemplateDir()}", defer()
+      callback null
+
     VOSCO::_getEnvironmentVariables = ->
-      GIT_DIR: @getRepositoryPath()
+      GIT_DIR: @_getRepositoryPath()
       GIT_WORK_TREE: @path
       GIT_AUTHOR_NAME: @options.author_name
       GIT_AUTHOR_EMAIL: @options.author_email

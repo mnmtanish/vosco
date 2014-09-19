@@ -25,22 +25,13 @@ Setup
 Repository
 ----------
 
-    describe 'VOSCO::getRepositoryPath', ->
-      it "should return vosco repo path"
-
-    describe 'VOSCO::createRepository', ->
-      it "should create repo with template"
+    describe 'VOSCO::getStatus', ->
+      it "should give current status of repo"
 
     describe 'VOSCO::getHistory', ->
       it "should give snapshot history"
 
-Information
------------
-
-    describe 'VOSCO::getStatus', ->
-      it "should give current status of repo"
-
-    describe 'VOSCO::getBlameInfo', ->
+    describe 'VOSCO::getContentHistory', ->
       it "should give blame info for a given file"
 
 Snapshot
@@ -66,6 +57,12 @@ Branch
 
 Helpers
 -------
+
+    describe 'VOSCO::_getRepositoryPath', ->
+      it "should return vosco repo path"
+
+    describe 'VOSCO::_createRepository', ->
+      it "should create repo with template"
 
     describe 'VOSCO::_getEnvironmentVariables', ->
       it "should return environment variables"
