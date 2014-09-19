@@ -1,7 +1,7 @@
 {
-  "name": "mnmtanish",
+  "name": "vosco-core",
   "version": "0.0.0",
-  "description": "Version controling for operating system configurations",
+  "description": "VCS for linux configurations",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
