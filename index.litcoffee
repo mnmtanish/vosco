@@ -37,7 +37,7 @@ Repository
       callback null, @_parseLogOutput(stdout)
 
     VOSCO::getContentHistory = (paths, callback) ->
-      await @_runGitCommand "blame -t -l #{path}", defer(error, stdout, stderr)
+      await @_runGitCommand "blame -p #{path}", defer(error, stdout, stderr)
       callback null, @_parseBlameOutput(stdout)
 
 Snapshot
