@@ -50,24 +50,24 @@ Snapshot
 
     VOSCO::rollbackToSnapshot = (commit, callback) ->
       await @_runGitCommand "clean -f", defer()
-      await @_runGitCommand "reset --hard \"#{commit}\"", defer()
+      await @_runGitCommand "reset --hard #{commit}", defer()
       callback null
 
 Branch
 ------
 
     VOSCO::createBranch = (branch, callback) ->
-      await @_runGitCommand "branch \"#{branch}\"", defer()
+      await @_runGitCommand "branch #{branch}", defer()
       await @selectBranch branch, defer()
       callback null
 
     VOSCO::selectBranch = (branch, callback) ->
       await @_runGitCommand "clean -f", defer()
-      await @_runGitCommand "checkout \"#{branch}\"", defer()
+      await @_runGitCommand "checkout #{branch}", defer()
       callback null
 
     VOSCO::deleteBranch = (branch, callback) ->
-      await @_runGitCommand "branch -D \"#{branch}\"", defer()
+      await @_runGitCommand "branch -D #{branch}", defer()
       callback null
 
 Helpers
