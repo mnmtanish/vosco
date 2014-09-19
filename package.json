@@ -1,6 +1,6 @@
 {
   "name": "vosco",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "VCS for linux configurations",
   "main": "index.js",
   "scripts": {
