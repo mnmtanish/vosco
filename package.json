@@ -1,5 +1,5 @@
 {
-  "name": "vosco-core",
+  "name": "vosco",
   "version": "0.0.0",
   "description": "VCS for linux configurations",
   "main": "index.js",
