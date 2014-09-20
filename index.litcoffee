@@ -45,6 +45,11 @@ Repository
 Snapshot
 --------
 
+    VOSCO::previewSnapshot = (hash, callback) ->
+      command = "diff #{hash}^ #{hash}"
+      await @_runGitCommand command, defer(error, stdout, stderr)
+      callback null, stdout
+
     VOSCO::createSnapshot = (message, callback) ->
       await @_runGitCommand "add --all .", defer()
       await @_runGitCommand "commit -m \"#{message}\"", defer()

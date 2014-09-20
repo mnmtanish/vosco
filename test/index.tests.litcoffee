@@ -105,6 +105,15 @@ Constructor
   Snapshot
   --------
 
+      describe 'previewSnapshot', ->
+        it "should give snapshot changes", (callback) ->
+          vosco = {cmds_: []}
+          vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb(null, 'o', 'e')
+          await VOSCO::previewSnapshot.call vosco, '_h', defer(err, out)
+          assert.equal out, 'o'
+          assert.deepEqual vosco.cmds_, ['diff _h^ _h']
+          callback null
+
       describe 'createSnapshot', ->
         it "should create a new snapshot", (callback) ->
           vosco = {cmds_: []}
