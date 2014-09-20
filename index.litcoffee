@@ -50,10 +50,10 @@ Snapshot
       await @_runGitCommand "commit -m \"#{message}\"", defer()
       callback null
 
-    VOSCO::rollbackToSnapshot = (commit, callback) ->
+    VOSCO::rollbackToSnapshot = (hash, callback) ->
       await @_runGitCommand "checkout -- .", defer()
       await @_runGitCommand "clean -f", defer()
-      await @_runGitCommand "reset --hard #{commit}", defer()
+      await @_runGitCommand "reset --hard #{hash}", defer()
       callback null
 
 Branch
@@ -93,7 +93,7 @@ Helpers
       path.resolve __dirname, 'template'
 
     VOSCO::_getLogFormat = ->
-      '\'{"commit": "%H", "author": "%an", "email": "%ae", "date": "%ad", "message": "%s"}\''
+      '\'{"hash": "%H", "author": "%an", "email": "%ae", "date": "%ad", "message": "%s"}\''
 
     VOSCO::_runGitCommand = (command, callback) ->
       options = {cwd: @path, env: @_getEnvironmentVariables()}

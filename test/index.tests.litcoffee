@@ -186,7 +186,7 @@ Constructor
 
       describe '_getLogFormat', ->
         it "should return JSON log format", ->
-          assert.equal VOSCO::_getLogFormat(), '\'{"commit": "%H", "author": "%an", "email": "%ae", "date": "%ad", "message": "%s"}\''
+          assert.equal VOSCO::_getLogFormat(), '\'{"hash": "%H", "author": "%an", "email": "%ae", "date": "%ad", "message": "%s"}\''
 
       describe '_runGitCommand', ->
         it "should run a command with git", (callback) ->
