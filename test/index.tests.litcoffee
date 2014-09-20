@@ -218,7 +218,13 @@ Helpers (parsers)
 -----------------
 
     describe 'VOSCO::_parseStatusOutput', ->
-      it "should parse and return status output"
+      it "should parse and return status output", ->
+        input = ' M _modified\u0000 D _removed\u0000?? _untracked'
+        output = VOSCO::_parseStatusOutput.call {}, input
+        assert.deepEqual output, [
+          { type: 'modified', path: '_modified' }
+          { type: 'removed', path: '_removed' }
+          { type: 'untracked', path: '_untracked' }]
 
     describe 'VOSCO::_parseLogOutput', ->
       it "should parse and return log output", ->
