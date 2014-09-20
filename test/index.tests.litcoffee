@@ -157,14 +157,6 @@ Helpers
         output = VOSCO::_getRepositoryPath.call vosco
         assert.equal output, '/.vosco'
 
-    describe 'VOSCO::_createRepository', ->
-      it "should create repo with template", (callback) ->
-        vosco = {cmds_: [], _getTemplateDir: () -> '_dir'}
-        vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
-        await VOSCO::_createRepository.call vosco, defer()
-        assert.deepEqual vosco.cmds_, ['init --template _dir']
-        callback null
-
     describe 'VOSCO::_getEnvironmentVariables', ->
       it "should return environment variables", ->
         vosco =
@@ -199,7 +191,15 @@ Helpers
         assert.equal out.substr(0, 3), 'git'
         callback null
 
-Helpers (parsers)
+    describe 'VOSCO::_createRepository', ->
+      it "should create repo with template", (callback) ->
+        vosco = {cmds_: [], _getTemplateDir: () -> '_dir'}
+        vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
+        await VOSCO::_createRepository.call vosco, defer()
+        assert.deepEqual vosco.cmds_, ['init --template _dir']
+        callback null
+
+Helpers (validate)
 -----------------
 
     describe 'VOSCO::_validateRepoPath', ->
@@ -212,6 +212,9 @@ Helpers (parsers)
         test_opts = { author_name: 'n', author_email: 'e' }
         assert.throws () -> VOSCO::_validateOptions.call {}, null
         assert.doesNotThrow () -> VOSCO::_validateOptions.call {}, test_opts
+
+Helpers (parsers)
+-----------------
 
     describe 'VOSCO::_parseStatusOutput', ->
       it "should parse and return status output"

@@ -77,10 +77,6 @@ Helpers
     VOSCO::_getRepositoryPath = ->
       path.resolve @path, '.vosco'
 
-    VOSCO::_createRepository = (callback) ->
-      await @_runGitCommand "init --template #{@_getTemplateDir()}", defer()
-      callback null
-
     VOSCO::_getEnvironmentVariables = ->
       GIT_DIR: @_getRepositoryPath()
       GIT_WORK_TREE: @path
@@ -100,7 +96,11 @@ Helpers
       options = {cwd: @path, env: @_getEnvironmentVariables()}
       exec "git #{command}", options, callback
 
-Helpers (parsers)
+    VOSCO::_createRepository = (callback) ->
+      await @_runGitCommand "init --template #{@_getTemplateDir()}", defer()
+      callback null
+
+Helpers (validate)
 -----------------
 
     VOSCO::_validateRepoPath = (path) ->
@@ -112,6 +112,9 @@ Helpers (parsers)
       assert.equal typeof options, "object", msg
       assert.equal typeof options.author_name, "string", msg
       assert.equal typeof options.author_email, "string", msg
+
+Helpers (parsers)
+-----------------
 
     VOSCO::_parseStatusOutput = (stdout) ->
       #TODO parse tatus output
