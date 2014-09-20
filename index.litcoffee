@@ -51,6 +51,7 @@ Snapshot
       callback null
 
     VOSCO::rollbackToSnapshot = (commit, callback) ->
+      await @_runGitCommand "checkout -- .", defer()
       await @_runGitCommand "clean -f", defer()
       await @_runGitCommand "reset --hard #{commit}", defer()
       callback null

@@ -113,7 +113,10 @@ Constructor
           vosco = {cmds_: []}
           vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
           await VOSCO::rollbackToSnapshot.call vosco, '_h', defer()
-          assert.deepEqual vosco.cmds_, ['clean -f', 'reset --hard _h']
+          assert.deepEqual vosco.cmds_, [
+            'checkout -- .',
+            'clean -f',
+            'reset --hard _h']
           callback null
 
   Branch
