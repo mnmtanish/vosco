@@ -59,6 +59,11 @@ Snapshot
 Branch
 ------
 
+    VOSCO::getBranches = (callback) ->
+      await @_runGitCommand "branch", defer(error, stdout, stderr)
+      await @_parseBranchOutput stdout, defer(error, branches, currentBranch)
+      callback null, branches, currentBranch
+
     VOSCO::createBranch = (branch, callback) ->
       await @_runGitCommand "branch #{branch}", defer()
       await @selectBranch branch, defer()
@@ -135,6 +140,12 @@ Helpers (parsers)
       blamejs = new BlameJs
       blamejs.parseBlame(stdout);
       {lines: blamejs.getLineData(), commits: blamejs.getCommitData()}
+
+    VOSCO::_parseBranchOutput = (stdout, callback) ->
+      lines = stdout.split("\n").filter (line) -> line != ''
+      current = lines.filter((line) -> line[0] == '*')[0].substr(2)
+      branches = lines.map (line) -> line.substr(2)
+      callback null, branches, current
 
 Export Module
 -------------

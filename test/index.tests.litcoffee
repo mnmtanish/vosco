@@ -122,6 +122,24 @@ Constructor
   Branch
   ------
 
+      describe 'getBranches', ->
+        it "should give branches list/curent branch", (callback) ->
+          vosco = {cmds_: [], _parseBranchOutput: (b, cb) -> cb()}
+          vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
+          await VOSCO::getBranches.call vosco, defer()
+          assert.deepEqual vosco.cmds_, ['branch']
+          callback null
+
+        it "should parse the output", (callback) ->
+          vosco = {cmds_: [], br_: null}
+          vosco._runGitCommand = (c, cb) -> cb(null, 'stdout')
+          vosco._parseBranchOutput = (out, cb) -> @br_ = out; cb null, 'o', 'e'
+          await VOSCO::getBranches.call vosco, defer(err, list, current)
+          assert.equal vosco.br_, 'stdout'
+          assert.equal list, 'o'
+          assert.equal current, 'e'
+          callback null
+
       describe 'createBranch', ->
         it "should create a new branch", (callback) ->
           vosco = {cmds_: [], selectBranch: (b, cb) -> cb()}
@@ -244,3 +262,10 @@ Constructor
           output = VOSCO::_parseBlameOutput.call {}, input
           assert.equal typeof output.lines, 'object'
           assert.equal typeof output.commits, 'object'
+
+      describe '_parseBranchOutput', ->
+        it "should parse and return branch output", ->
+          input = '* current\n  another'
+          await VOSCO::_parseBranchOutput.call {}, input, defer(err, list, cur)
+          assert.deepEqual list, ['current', 'another']
+          assert.equal cur, 'current'
