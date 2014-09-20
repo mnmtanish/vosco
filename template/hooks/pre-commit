@@ -1,8 +1,3 @@
 #!/bin/bash
 
-if [ $IS_TEST ]
-  then
-  exit 0
-fi
-
 dpkg --get-selections > $VOSCO_SOFTWARE_LIST

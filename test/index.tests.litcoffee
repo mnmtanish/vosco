@@ -158,7 +158,7 @@ Helpers
         assert.equal output, '/.vosco'
 
     describe 'VOSCO::_getEnvironmentVariables', ->
-      it "should return environment variables (dev)", ->
+      it "should return environment variables", ->
         vosco =
           path: '_path',
           _getRepositoryPath: () -> '_dir'
@@ -172,25 +172,7 @@ Helpers
           GIT_COMMITTER_NAME: '_name'
           GIT_COMMITTER_EMAIL: '_email'
           VOSCO_APP_DIR: path.resolve(__dirname, '..')
-          IS_TEST: 1
-
-      it "should return environment variables (prod)", ->
-        process.env.npm_lifecycle_event = 'prod'
-        vosco =
-          path: '_path',
-          _getRepositoryPath: () -> '_dir'
-          options: {author_name: '_name', author_email: '_email'}
-        env = VOSCO::_getEnvironmentVariables.call vosco
-        assert.deepEqual env,
-          GIT_DIR: '_dir'
-          GIT_WORK_TREE: '_path'
-          GIT_AUTHOR_NAME: '_name'
-          GIT_AUTHOR_EMAIL: '_email'
-          GIT_COMMITTER_NAME: '_name'
-          GIT_COMMITTER_EMAIL: '_email'
-          VOSCO_APP_DIR: path.resolve(__dirname, '..')
-          IS_TEST: 0
-        process.env.npm_lifecycle_event = 'test'
+          VOSCO_SOFTWARE_LIST: path.resolve('_path', 'vosco-software-list')
 
     describe 'VOSCO::_getTemplatePath', ->
       it "should return template path", ->

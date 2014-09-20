@@ -79,9 +79,6 @@ Helpers
       path.resolve @path, '.vosco'
 
     VOSCO::_getEnvironmentVariables = ->
-      isTest = 0
-      if process.env.npm_lifecycle_event is 'test'
-        isTest = 1
       GIT_DIR: @_getRepositoryPath()
       GIT_WORK_TREE: @path
       GIT_AUTHOR_NAME: @options.author_name
@@ -89,7 +86,7 @@ Helpers
       GIT_COMMITTER_NAME: @options.author_name
       GIT_COMMITTER_EMAIL: @options.author_email
       VOSCO_APP_DIR: __dirname
-      IS_TEST: isTest
+      VOSCO_SOFTWARE_LIST: path.resolve @path, 'vosco-software-list'
 
     VOSCO::_getTemplatePath = ->
       path.resolve __dirname, 'template'

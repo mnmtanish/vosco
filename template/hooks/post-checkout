@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $IS_TEST ]
-  then
-  exit 0
-fi
-
 dpkg --clear-selections
 dpkg --set-selections < $VOSCO_SOFTWARE_LIST
 apt-get -y dselect-upgrade
