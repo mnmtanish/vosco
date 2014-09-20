@@ -170,7 +170,7 @@ Constructor
           callback null
 
       describe 'selectBranch', ->
-        it "should witch to a branch", (callback) ->
+        it "should switch to a branch", (callback) ->
           vosco = {cmds_: []}
           vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
           await VOSCO::selectBranch.call vosco, '_b', defer()
