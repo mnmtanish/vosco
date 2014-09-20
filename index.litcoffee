@@ -129,11 +129,11 @@ Helpers (parsers)
       # TODO handle empty stdout
       types = {' M': 'modified', ' D': 'removed', '??': 'untracked'}
       parser = (line) -> {type: types[line.substr(0, 2)], path: line.substr(3)}
-      lines = stdout.split('\u0000').map parser
+      lines = stdout.split('\u0000').filter((line) -> line != '').map parser
       lines.filter (line) -> !!line.type
 
     VOSCO::_parseLogOutput = (stdout) ->
-      lines = stdout.split "\n"
+      lines = stdout.split("\n").filter (line) -> line != ''
       lines.map (line) -> JSON.parse(line)
 
     VOSCO::_parseBlameOutput = (stdout) ->
