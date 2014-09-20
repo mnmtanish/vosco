@@ -60,7 +60,12 @@ Constructor
   ----------
 
       describe 'getStatus', ->
-        it "should give current status of repo"
+        it "should give current status of repo", (callback) ->
+          vosco = {cmds_: [], _parseStatusOutput: Function.prototype}
+          vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
+          await VOSCO::getStatus.call vosco, defer()
+          assert.deepEqual vosco.cmds_, ['status -z']
+          callback null
 
       describe 'getHistory', ->
         it "should give snapshot history", (callback) ->
