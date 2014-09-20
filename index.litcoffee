@@ -51,8 +51,8 @@ Snapshot
       callback null, stdout
 
     VOSCO::createSnapshot = (message, callback) ->
-      await @_runGitCommand "add --all .", defer()
-      await @_runGitCommand "commit -m \"#{message}\"", defer()
+      await @_runGitCommand "add --all etc", defer()
+      await @_runGitCommand "commit -m \"#{message}\"", defer(a, s, d)
       callback null
 
     VOSCO::rollbackToSnapshot = (hash, callback) ->
@@ -97,7 +97,7 @@ Helpers
       GIT_COMMITTER_NAME: @options.author_name
       GIT_COMMITTER_EMAIL: @options.author_email
       VOSCO_APP_DIR: __dirname
-      VOSCO_SOFTWARE_LIST: path.resolve @path, 'vosco-software-list'
+      VOSCO_SOFTWARE_LIST: path.resolve @path, 'etc', 'vosco-software-list'
 
     VOSCO::_getTemplatePath = ->
       path.resolve __dirname, 'template'

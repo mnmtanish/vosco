@@ -119,7 +119,7 @@ Constructor
           vosco = {cmds_: []}
           vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
           await VOSCO::createSnapshot.call vosco, '_msg', defer()
-          assert.deepEqual vosco.cmds_, ['add --all .', 'commit -m "_msg"']
+          assert.deepEqual vosco.cmds_, ['add --all etc', 'commit -m "_msg"']
           callback null
 
       describe 'rollbackToSnapshot', ->
@@ -201,6 +201,7 @@ Constructor
             _getRepositoryPath: () -> '_dir'
             options: {author_name: '_name', author_email: '_email'}
           env = VOSCO::_getEnvironmentVariables.call vosco
+          listPath = path.resolve('_path', 'etc', 'vosco-software-list')
           assert.deepEqual env,
             GIT_DIR: '_dir'
             GIT_WORK_TREE: '_path'
@@ -209,7 +210,7 @@ Constructor
             GIT_COMMITTER_NAME: '_name'
             GIT_COMMITTER_EMAIL: '_email'
             VOSCO_APP_DIR: path.resolve(__dirname, '..')
-            VOSCO_SOFTWARE_LIST: path.resolve('_path', 'vosco-software-list')
+            VOSCO_SOFTWARE_LIST: listPath
 
       describe '_getTemplatePath', ->
         it "should return template path", ->

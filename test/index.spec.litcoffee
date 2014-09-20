@@ -38,9 +38,9 @@ Status
         await exec "echo 4 > #{test_file}-new", defer()
         await vosco.getStatus defer(err, out)
         assert.deepEqual out, [
-          { type: "modified", path: "hello.txt-edit" }
-          { type: "removed", path: "hello.txt-remove" }
-          { type: "untracked", path: "hello.txt-new" }]
+          { type: "modified", path: "etc/hello.txt-edit" }
+          { type: "removed", path: "etc/hello.txt-remove" }
+          { type: "untracked", path: "etc/hello.txt-new" }]
         callback null
 
 Snapshots
@@ -75,11 +75,11 @@ Snapshots
         await vosco.createSnapshot 'test', defer()
         await vosco.getHistory defer(err, out)
         await vosco.previewSnapshot out[0].hash, defer(err, out)
-        assert.equal out, """diff --git a/hello.txt-new b/hello.txt-new
+        assert.equal out, """diff --git a/etc/hello.txt-new b/etc/hello.txt-new
         new file mode 100644
         index 0000000..7898192
         --- /dev/null
-        +++ b/hello.txt-new
+        +++ b/etc/hello.txt-new
         @@ -0,0 +1 @@
         +a
 
@@ -151,7 +151,7 @@ Content History
         await vosco.install defer()
         await exec "echo world >> #{test_file}", defer()
         await vosco.createSnapshot 'test', defer()
-        await vosco.getContentHistory 'hello.txt', defer(err, out)
+        await vosco.getContentHistory 'etc/hello.txt', defer(err, out)
         assert.equal out.lines[1].code, 'hello'
         assert.equal out.commits[out.lines[1].hash].summary, 'Install VOSCO'
         assert.equal out.lines[2].code, 'world'
@@ -163,13 +163,14 @@ Helpers
 
     test_path = "/tmp/test_repo"
     repo_path = "/tmp/test_repo/.vosco"
-    test_file = path.resolve test_path, 'hello.txt'
+    test_file = path.resolve test_path, 'etc', 'hello.txt'
     test_opts =
       author_name: 'John Doe'
       author_email: 'john.doe@gmail.com'
 
     beforeEach (callback) ->
       await exec "mkdir #{test_path}", defer()
+      await exec "mkdir #{test_path}/etc", defer()
       await exec "echo hello > #{test_file}", defer()
       callback null
 
