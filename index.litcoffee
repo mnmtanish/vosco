@@ -16,6 +16,7 @@ Constructor
       @_validateRepoPath(@path)
       @_validateOptions(@options)
       @env = @_getEnvironmentVariables()
+      return @
 
 Setup
 -----
