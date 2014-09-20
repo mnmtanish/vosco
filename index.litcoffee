@@ -96,7 +96,8 @@ Helpers
 
     VOSCO::_runGitCommand = (command, callback) ->
       options = {cwd: @path, env: @_getEnvironmentVariables()}
-      exec "git #{command}", options, callback
+      await exec "git #{command}", options, defer(error, stdout, stderr)
+      callback error, stdout, stderr
 
     VOSCO::_createRepository = (callback) ->
       await @_runGitCommand "init --template #{@_getTemplatePath()}", defer()
