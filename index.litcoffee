@@ -98,7 +98,7 @@ Helpers
       exec "git #{command}", options, callback
 
     VOSCO::_createRepository = (callback) ->
-      await @_runGitCommand "init --template #{@_getTemplateDir()}", defer()
+      await @_runGitCommand "init --template #{@_getTemplatePath()}", defer()
       callback null
 
 Helpers (validate)

@@ -193,7 +193,7 @@ Helpers
 
     describe 'VOSCO::_createRepository', ->
       it "should create repo with template", (callback) ->
-        vosco = {cmds_: [], _getTemplateDir: () -> '_dir'}
+        vosco = {cmds_: [], _getTemplatePath: () -> '_dir'}
         vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb()
         await VOSCO::_createRepository.call vosco, defer()
         assert.deepEqual vosco.cmds_, ['init --template _dir']
