@@ -26,6 +26,10 @@ Setup
       await @createSnapshot 'Install VOSCO', defer()
       callback null
 
+    VOSCO::uninstall = (callback) ->
+      await exec "rm -rf #{@_getRepositoryPath()}", {cwd: @path}, defer()
+      callback null
+
 Repository
 ----------
 

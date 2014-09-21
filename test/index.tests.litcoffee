@@ -3,6 +3,7 @@ Dependencies
 
     path   = require "path"
     assert = require "assert"
+    {exec} = require "child_process"
     VOSCO  = require ".."
 
 VOSCO
@@ -54,6 +55,14 @@ Constructor
           vosco.createSnapshot = (msg, cb) -> @msg_ = msg; cb()
           await VOSCO::install.call vosco, defer()
           assert.equal vosco.msg_, 'Install VOSCO'
+          callback null
+
+This test will always pass no matter the repository directory gets removed or not. TO properly test this, create a test directory before running the test.
+
+      describe 'uninstall', ->
+        it "should remove the repo", (callback) ->
+          vosco = {_getRepositoryPath: () -> '/tmp/aaa'}
+          await VOSCO::uninstall.call vosco, defer()
           callback null
 
   Repository

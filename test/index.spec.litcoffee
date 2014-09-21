@@ -24,6 +24,14 @@ Setup
         assert.equal contents.indexOf('.vosco') >= 0, true
         callback null
 
+      it "should remove repository", (callback) ->
+        vosco = new VOSCO test_path, test_opts
+        await vosco.install defer()
+        await vosco.uninstall defer()
+        contents = fs.readdirSync test_path
+        assert.equal contents.indexOf('.vosco') >= 0, false
+        callback null
+
 Status
 ======
 
