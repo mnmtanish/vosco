@@ -81,9 +81,11 @@ Snapshots
         await vosco.install defer()
         await exec "echo a > #{test_file}-new", defer()
         await vosco.createSnapshot 'test', defer()
-        await vosco.getHistory defer(err, out)
-        await vosco.previewSnapshot out[0].hash, defer(err, out)
-        assert.equal out, """diff --git a/etc/hello.txt-new b/etc/hello.txt-new
+        await vosco.getHistory defer(err, history)
+        await vosco.previewSnapshot history[0].hash, defer(err, diff)
+        assert.equal diff, """
+        #{history[0].hash} test
+        diff --git a/etc/hello.txt-new b/etc/hello.txt-new
         new file mode 100644
         index 0000000..7898192
         --- /dev/null

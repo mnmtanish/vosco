@@ -135,7 +135,7 @@ This test will always pass no matter the repository directory gets removed or no
           vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb(null, 'stdout')
           await VOSCO::previewSnapshot.call vosco, '_h', defer(err, out)
           assert.equal out, 'stdout'
-          assert.deepEqual vosco.cmds_, ['diff _h^ _h']
+          assert.deepEqual vosco.cmds_, ['show --format=oneline _h']
           callback null
 
       describe 'createSnapshot', ->
