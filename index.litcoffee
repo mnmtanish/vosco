@@ -56,7 +56,7 @@ Snapshot
 --------
 
     VOSCO::previewSnapshot = (hash, callback) ->
-      command = "diff show #{hash}"
+      command = "show #{hash}"
       await @_runGitCommand command, defer(error, stdout)
       callback null, stdout
 
