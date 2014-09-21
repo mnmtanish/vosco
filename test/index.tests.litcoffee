@@ -132,9 +132,9 @@ This test will always pass no matter the repository directory gets removed or no
       describe 'previewSnapshot', ->
         it "should give snapshot changes", (callback) ->
           vosco = {cmds_: []}
-          vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb(null, 'o', 'e')
+          vosco._runGitCommand = (c, cb) -> @cmds_.push(c); cb(null, 'stdout')
           await VOSCO::previewSnapshot.call vosco, '_h', defer(err, out)
-          assert.equal out, 'o'
+          assert.equal out, 'stdout'
           assert.deepEqual vosco.cmds_, ['diff _h^ _h']
           callback null
 
@@ -171,11 +171,11 @@ This test will always pass no matter the repository directory gets removed or no
         it "should parse the output", (callback) ->
           vosco = {cmds_: [], br_: null}
           vosco._runGitCommand = (c, cb) -> cb(null, 'stdout')
-          vosco._parseBranchOutput = (out, cb) -> @br_ = out; cb null, 'o', 'e'
+          vosco._parseBranchOutput = (out, cb) -> @br_ = out; cb null, 'l', 'c'
           await VOSCO::getBranches.call vosco, defer(err, list, current)
           assert.equal vosco.br_, 'stdout'
-          assert.equal list, 'o'
-          assert.equal current, 'e'
+          assert.equal list, 'l'
+          assert.equal current, 'c'
           callback null
 
       describe 'createBranch', ->

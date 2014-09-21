@@ -40,16 +40,16 @@ Repository
 ----------
 
     VOSCO::getStatus = (callback) ->
-      await @_runGitCommand "status -z", defer(error, stdout, stderr)
+      await @_runGitCommand "status -z", defer(error, stdout)
       callback null, @_parseStatusOutput(stdout)
 
     VOSCO::getHistory = (callback) ->
       command = "log --pretty=format:#{@_getLogFormat()} --all"
-      await @_runGitCommand command, defer(error, stdout, stderr)
+      await @_runGitCommand command, defer(error, stdout)
       callback null, @_parseLogOutput(stdout)
 
     VOSCO::getContentHistory = (paths, callback) ->
-      await @_runGitCommand "blame -p #{paths}", defer(error, stdout, stderr)
+      await @_runGitCommand "blame -p #{paths}", defer(error, stdout)
       callback null, @_parseBlameOutput(stdout)
 
 Snapshot
@@ -57,7 +57,7 @@ Snapshot
 
     VOSCO::previewSnapshot = (hash, callback) ->
       command = "diff #{hash}^ #{hash}"
-      await @_runGitCommand command, defer(error, stdout, stderr)
+      await @_runGitCommand command, defer(error, stdout)
       callback null, stdout
 
     VOSCO::createSnapshot = (message, callback) ->
@@ -75,7 +75,7 @@ Branch
 ------
 
     VOSCO::getBranches = (callback) ->
-      await @_runGitCommand "branch", defer(error, stdout, stderr)
+      await @_runGitCommand "branch", defer(error, stdout)
       await @_parseBranchOutput stdout, defer(error, branches, currentBranch)
       callback null, branches, currentBranch
 
