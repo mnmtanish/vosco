@@ -75,7 +75,7 @@ This test will always pass no matter the repository directory gets removed or no
           await VOSCO::isInstalled.call vosco, defer(error, status)
           assert.equal status, false
           await exec 'mkdir /tmp/aaa', defer()
-          await exec 'mkdir /tmp/aaa/.vosco', defer()
+          await exec 'mkdir /tmp/aaa/hooks', defer()
           await VOSCO::isInstalled.call vosco, defer(error, status)
           assert.equal status, true
           callback null

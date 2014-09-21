@@ -33,7 +33,7 @@ Setup
 
     VOSCO::isInstalled = (callback) ->
       await fs.readdir @_getRepositoryPath(), defer(error, contents)
-      isInstalled = !!contents && contents.indexOf('.vosco') >= 0
+      isInstalled = !!contents && contents.indexOf('hooks') >= 0
       callback null, isInstalled
 
 Repository
