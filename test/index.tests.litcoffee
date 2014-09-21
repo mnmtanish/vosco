@@ -62,7 +62,22 @@ This test will always pass no matter the repository directory gets removed or no
       describe 'uninstall', ->
         it "should remove the repo", (callback) ->
           vosco = {_getRepositoryPath: () -> '/tmp/aaa'}
+          await exec 'mkdir /tmp/aaa', defer()
+          await exec 'mkdir /tmp/aaa/.vosco', defer()
           await VOSCO::uninstall.call vosco, defer()
+          await VOSCO::isInstalled.call vosco, defer(error, status)
+          assert.equal status, false
+          callback null
+
+      describe 'isInstalled', ->
+        it "test whether repo is installed", (callback) ->
+          vosco = {_getRepositoryPath: () -> '/tmp/aaa'}
+          await VOSCO::isInstalled.call vosco, defer(error, status)
+          assert.equal status, false
+          await exec 'mkdir /tmp/aaa', defer()
+          await exec 'mkdir /tmp/aaa/.vosco', defer()
+          await VOSCO::isInstalled.call vosco, defer(error, status)
+          assert.equal status, true
           callback null
 
   Repository

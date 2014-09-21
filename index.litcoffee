@@ -4,6 +4,7 @@ VOSCO
 Dependencies
 ------------
 
+    fs      = require "fs"
     path    = require "path"
     BlameJs = require "blamejs"
     assert  = require "assert"
@@ -29,6 +30,11 @@ Setup
     VOSCO::uninstall = (callback) ->
       await exec "rm -rf #{@_getRepositoryPath()}", {cwd: @path}, defer()
       callback null
+
+    VOSCO::isInstalled = (callback) ->
+      await fs.readdir @_getRepositoryPath(), defer(error, contents)
+      isInstalled = !!contents && contents.indexOf('.vosco') >= 0
+      callback null, isInstalled
 
 Repository
 ----------
