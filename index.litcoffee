@@ -56,7 +56,7 @@ Snapshot
 --------
 
     VOSCO::previewSnapshot = (hash, callback) ->
-      command = "show #{hash}"
+      command = "show --format=oneline #{hash}"
       await @_runGitCommand command, defer(error, stdout)
       callback null, stdout
 
