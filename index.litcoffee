@@ -158,7 +158,8 @@ Helpers (parsers)
 
     VOSCO::_parseBranchOutput = (stdout, callback) ->
       lines = stdout.split("\n").filter (line) -> line != ''
-      current = lines.filter((line) -> line[0] == '*')[0].substr(2)
+      current = lines.filter((line) -> line[0] == '*')[0]
+      current = current && current.substr(2)
       branches = lines.map (line) -> line.substr(2)
       callback null, branches, current
 
