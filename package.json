@@ -24,6 +24,6 @@
   },
   "dependencies": {
     "blamejs": "1.0.x",
-    "iced-coffee-script": "1.7.x"
+    "iced-coffee-script": "1.7.1-g"
   }
 }
